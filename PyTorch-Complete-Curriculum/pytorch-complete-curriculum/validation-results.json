@@ -1,0 +1,21 @@
+{
+  "length_measure": "whitespace-separated words, Python str.split; not model tokens",
+  "per_lesson_minimum": 5000,
+  "lesson_word_counts": {
+    "01-foundations-and-tensors.md": 5050,
+    "02-gradients-and-neural-networks.md": 5034,
+    "03-data-training-and-evaluation.md": 5344,
+    "04-vision-audio-and-transfer-learning.md": 5005,
+    "05-sequences-attention-and-transformers.md": 5262,
+    "06-advanced-autograd-and-ai-objectives.md": 5028,
+    "07-performance-distributed-and-deployment.md": 5033
+  },
+  "total_lesson_words": 35756,
+  "numbered_sections": 151,
+  "python_lesson_blocks_syntax_checked": 93,
+  "python_files_syntax_checked": 20,
+  "relative_links_checked": 192,
+  "numerical_derivation_checks": 7,
+  "pytorch_execution": "not performed: torch unavailable in authoring environment",
+  "tokenizer": "not available; exact model-token counts not verified"
+}

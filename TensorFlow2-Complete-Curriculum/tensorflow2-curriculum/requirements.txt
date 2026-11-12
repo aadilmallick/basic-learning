@@ -1,0 +1,4 @@
+# Course reference environment: Python 3.11, CPU first.
+# This is a top-level pin, not a complete platform-specific lock file.
+tensorflow==2.20.0
+numpy>=1.26,<3

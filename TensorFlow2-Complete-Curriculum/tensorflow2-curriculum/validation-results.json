@@ -1,0 +1,15 @@
+{
+  "lesson_word_counts": {
+    "01-foundations-tensors-and-neural-network-math.md": 5052,
+    "02-autodiff-losses-and-optimization.md": 5048,
+    "03-keras-data-and-reliable-experiments.md": 5115,
+    "04-vision-sequences-attention-and-generative-models.md": 5012,
+    "05-graphs-custom-training-and-deployment.md": 5184
+  },
+  "length_method": "Python len(text.split()); whitespace words; not model tokens",
+  "python_blocks_syntax_checked": 71,
+  "python_files_syntax_checked": 7,
+  "failures": [],
+  "tensorflow_runtime_executed": false,
+  "independent_numpy_checks": "passed"
+}
