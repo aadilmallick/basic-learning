@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {"id":"Backend_Build","name":"Backend <API> & tests","projectId":"Backend","projectName":"Backend","webUrl":"https://ci.example.com/viewType.html?buildTypeId=Backend_Build"},
+    {"id":"AllRed_Build","name":"Long red streak","projectId":"Backend","projectName":"Backend","webUrl":"https://ci.example.com/viewType.html?buildTypeId=AllRed_Build"},
+    {"id":"Frontend_Build","name":"Frontend","projectId":"Frontend","projectName":"Frontend","webUrl":"https://ci.example.com/viewType.html?buildTypeId=Frontend_Build"},
+    {"id":"Empty_Build","name":"No builds yet","projectId":"Frontend","projectName":"Frontend","webUrl":"javascript:alert(1)"},
+    {"id":"Unknown_Build","name":"Unknown latest status","projectId":"Frontend","projectName":"Frontend","webUrl":"https://ci.example.com/unknown"},
+    {"id":"Unavailable_Build","name":"Unavailable history","projectId":"Backend","projectName":"Backend","webUrl":"https://ci.example.com/unavailable"}
+  ],
+  "histories": {
+    "Backend_Build": [
+      {"id":"103","number":"103","status":"FAILURE","finishDate":"20261112T090000-0500","webUrl":"https://ci.example.com/build/103"},
+      {"id":"102","number":"102","status":"ERROR","finishDate":"20261111T090000-0500","webUrl":"https://ci.example.com/build/102"},
+      {"id":"101","number":"101","status":"SUCCESS","finishDate":"20261110T090000-0500","webUrl":"https://ci.example.com/build/101"}
+    ],
+    "AllRed_Build": [
+      {"id":"203","number":"203","status":"FAILURE","finishDate":"20261112T090000-0500","webUrl":"https://ci.example.com/build/203"},
+      {"id":"202","number":"202","status":"FAILURE","finishDate":"20261109T090000-0500","webUrl":"https://ci.example.com/build/202"}
+    ],
+    "Frontend_Build": [{"id":"301","number":"301","status":"SUCCESS","finishDate":"20261112T080000-0500","webUrl":"https://ci.example.com/build/301"}],
+    "Empty_Build": [],
+    "Unknown_Build": [{"id":"401","number":"401","status":"UNKNOWN","finishDate":"invalid","webUrl":"https://ci.example.com/build/401"}]
+  },
+  "projects": {
+    "Backend":{"id":"Backend","name":"Backend","parentProject":{"id":"Product","name":"Product"}},
+    "Frontend":{"id":"Frontend","name":"Frontend","parentProject":{"id":"Product","name":"Product"}},
+    "Product":{"id":"Product","name":"Product & Platform","parentProject":{"id":"_Root","name":"<Root project>"}}
+  }
+}

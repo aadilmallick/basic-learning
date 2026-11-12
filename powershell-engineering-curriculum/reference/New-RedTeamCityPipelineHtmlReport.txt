@@ -1,0 +1,913 @@
+<#
+.SYNOPSIS
+Generates an HTML report of red TeamCity pipelines grouped by project.
+
+.DESCRIPTION
+Prompts for a TeamCity access token, reads all TeamCity build configurations,
+checks recent finished builds for each configuration, and writes an HTML report
+showing red pipelines grouped by project.
+
+The "Became Red" date is calculated as the earliest failed build in the current
+continuous failure streak. If no green build is found within the scan limit, the
+report marks the date as "At least since".
+
+.PARAMETER TeamCityUrl
+TeamCity server URL. Defaults to https://ci.compusearch.com.
+
+.PARAMETER Token
+Optional token value. If omitted, the script prompts for it.
+
+.PARAMETER ExcludeProjectName
+Project names or wildcard patterns to skip.
+
+.PARAMETER ExcludePipelineName
+Pipeline names or wildcard patterns to skip.
+
+.PARAMETER MaxBuildsToScan
+Maximum number of recent finished builds to inspect for each pipeline.
+
+.PARAMETER OutputPath
+Path where the HTML report will be written.
+
+.PARAMETER SummaryOutputPath
+Path where the overall pipeline health HTML report will be written.
+
+.PARAMETER ProjectChartsOutputPath
+Path where the top-level project pipeline health chart HTML report will be written.
+
+.EXAMPLE
+.\New-RedTeamCityPipelineHtmlReport.ps1 `
+  -ExcludeProjectName "Testing Zone","Sandbox*" `
+  -ExcludePipelineName "*Experimental*"
+#>
+
+[CmdletBinding()]
+param(
+    [string]$TeamCityUrl = "https://ci.compusearch.com",
+
+    [string]$Token = $ENV:TOKEN,
+
+    [string[]]$ExcludeProjectName = @("Testing Zone", "PRISM (Legacy)", "PBF"),
+
+    [string[]]$ExcludePipelineName = @(),
+
+    [ValidateRange(1, 1000)]
+    [int]$PageSize = 100,
+
+    [ValidateRange(1, 500)]
+    [int]$MaxBuildsToScan = 100,
+
+    [string]$OutputPath = "RedTeamCityPipelinesReport.html",
+
+    [string]$SummaryOutputPath = "UnisonTeamCityPipelineHealthReport.html",
+
+    [string]$ProjectChartsOutputPath = "UnisonTeamCityProjectHealthChartsReport.html"
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($Token)) {
+    $Token = Read-Host "TeamCity access token"
+}
+
+$apiRoot = $TeamCityUrl.TrimEnd("/")
+if ($apiRoot -notmatch "/app/rest($|/)") {
+    $apiRoot = "$apiRoot/app/rest"
+}
+
+$headers = @{
+    Accept        = "application/json"
+    Authorization = "Bearer $Token"
+}
+
+$projectInfoById = @{}
+
+function New-TeamCityUri {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [hashtable]$Query = @{}
+    )
+
+    $uri = "$apiRoot/$($Path.TrimStart("/"))"
+    if ($Query.Count -eq 0) {
+        return $uri
+    }
+
+    $queryParts = foreach ($key in $Query.Keys) {
+        $encodedKey = [uri]::EscapeDataString([string]$key)
+        $encodedValue = [uri]::EscapeDataString([string]$Query[$key])
+        "$encodedKey=$encodedValue"
+    }
+
+    "${uri}?$($queryParts -join "&")"
+}
+
+function Invoke-TeamCityGet {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [hashtable]$Query = @{}
+    )
+
+    $uri = New-TeamCityUri -Path $Path -Query $Query
+    Invoke-RestMethod -Method Get -Uri $uri -Headers $headers
+}
+
+function Get-PropertyValue {
+    param(
+        [AllowNull()]
+        [object]$InputObject,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Name
+    )
+
+    if ($null -eq $InputObject) {
+        return $null
+    }
+
+    $property = $InputObject.PSObject.Properties[$Name]
+    if ($null -eq $property) {
+        return $null
+    }
+
+    $property.Value
+}
+
+function Test-NameExcluded {
+    param(
+        [AllowNull()]
+        [string]$Name,
+
+        [string[]]$Patterns
+    )
+
+    foreach ($pattern in $Patterns) {
+        if ([string]::IsNullOrWhiteSpace($pattern)) {
+            continue
+        }
+
+        if ($Name -like $pattern) {
+            return $true
+        }
+    }
+
+    return $false
+}
+
+function ConvertFrom-TeamCityDate {
+    param(
+        [AllowNull()]
+        [string]$DateText
+    )
+
+    if ([string]::IsNullOrWhiteSpace($DateText)) {
+        return $null
+    }
+
+    $normalizedDate = $DateText
+    if ($normalizedDate -match "[+-]\d{4}$") {
+        $normalizedDate = $normalizedDate -replace "([+-]\d{2})(\d{2})$", '$1:$2'
+    }
+
+    $formats = @(
+        "yyyyMMdd'T'HHmmsszzz",
+        "yyyyMMdd'T'HHmmssK",
+        "yyyy-MM-dd'T'HH:mm:sszzz",
+        "yyyy-MM-dd'T'HH:mm:ssK",
+        "yyyy-MM-dd'T'HH:mm:ss.fffzzz",
+        "yyyy-MM-dd'T'HH:mm:ss.fffK"
+    )
+
+    foreach ($format in $formats) {
+        try {
+            $parsed = [DateTimeOffset]::ParseExact(
+                $normalizedDate,
+                $format,
+                [Globalization.CultureInfo]::InvariantCulture,
+                [Globalization.DateTimeStyles]::None
+            )
+
+            return $parsed.LocalDateTime
+        }
+        catch {
+        }
+    }
+
+    try {
+        return ([DateTimeOffset]::Parse($normalizedDate)).LocalDateTime
+    }
+    catch {
+        return $null
+    }
+}
+
+function ConvertTo-HtmlText {
+    param(
+        [AllowNull()]
+        [object]$Value
+    )
+
+    [Net.WebUtility]::HtmlEncode([string]$Value)
+}
+
+function Test-TeamCityRootProject {
+    param(
+        [AllowNull()]
+        [string]$ProjectId,
+
+        [AllowNull()]
+        [string]$ProjectName
+    )
+
+    if ($ProjectId -eq "_Root") {
+        return $true
+    }
+
+    if ($ProjectName -eq "<Root project>" -or $ProjectName -eq "Root project") {
+        return $true
+    }
+
+    return $false
+}
+
+function Get-TeamCityProjectInfo {
+    param(
+        [AllowNull()]
+        [string]$ProjectId
+    )
+
+    if ([string]::IsNullOrWhiteSpace($ProjectId)) {
+        return $null
+    }
+
+    if ($projectInfoById.ContainsKey($ProjectId)) {
+        return $projectInfoById[$ProjectId]
+    }
+
+    $project = Invoke-TeamCityGet -Path "projects/id:$ProjectId" -Query @{
+        fields = "id,name,parentProject(id,name)"
+    }
+
+    $projectInfoById[$ProjectId] = $project
+    $project
+}
+
+function Get-TopLevelProjectName {
+    param(
+        [AllowNull()]
+        [string]$ProjectId,
+
+        [AllowNull()]
+        [string]$FallbackProjectName
+    )
+
+    try {
+        $currentProject = Get-TeamCityProjectInfo -ProjectId $ProjectId
+    }
+    catch {
+        Write-Warning "Could not read TeamCity project '$ProjectId' for top-level grouping: $($_.Exception.Message)"
+        return $FallbackProjectName
+    }
+
+    if ($null -eq $currentProject) {
+        return $FallbackProjectName
+    }
+
+    while ($true) {
+        $parentProject = Get-PropertyValue -InputObject $currentProject -Name "parentProject"
+        if ($null -eq $parentProject) {
+            break
+        }
+
+        $parentProjectId = [string](Get-PropertyValue -InputObject $parentProject -Name "id")
+        $parentProjectName = [string](Get-PropertyValue -InputObject $parentProject -Name "name")
+
+        if (Test-TeamCityRootProject -ProjectId $parentProjectId -ProjectName $parentProjectName) {
+            break
+        }
+
+        try {
+            $nextProject = Get-TeamCityProjectInfo -ProjectId $parentProjectId
+        }
+        catch {
+            Write-Warning "Could not read parent TeamCity project '$parentProjectId' for top-level grouping: $($_.Exception.Message)"
+            return $FallbackProjectName
+        }
+
+        if ($null -eq $nextProject) {
+            break
+        }
+
+        $currentProject = $nextProject
+    }
+
+    $topLevelProjectName = [string](Get-PropertyValue -InputObject $currentProject -Name "name")
+    if ([string]::IsNullOrWhiteSpace($topLevelProjectName)) {
+        return $FallbackProjectName
+    }
+
+    $topLevelProjectName
+}
+
+function Get-TeamCityBuildTypes {
+    $start = 0
+
+    while ($true) {
+        $response = Invoke-TeamCityGet -Path "buildTypes" -Query @{
+            locator = "templateFlag:false,count:$PageSize,start:$start"
+            fields  = "count,nextHref,buildType(id,name,projectName,projectId,webUrl)"
+        }
+
+        $buildTypesValue = Get-PropertyValue -InputObject $response -Name "buildType"
+        if ($null -eq $buildTypesValue) {
+            break
+        }
+
+        $buildTypes = @($buildTypesValue)
+        foreach ($buildType in $buildTypes) {
+            $buildType
+        }
+
+        $nextHref = Get-PropertyValue -InputObject $response -Name "nextHref"
+        if ($buildTypes.Count -lt $PageSize -or [string]::IsNullOrWhiteSpace($nextHref)) {
+            break
+        }
+
+        $start += $PageSize
+    }
+}
+
+function Get-RecentFinishedBuilds {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$BuildTypeId
+    )
+
+    $response = Invoke-TeamCityGet -Path "builds" -Query @{
+        locator = "buildType:(id:$BuildTypeId),state:finished,personal:false,canceled:false,defaultFilter:false,count:$MaxBuildsToScan"
+        fields  = "build(id,number,status,finishDate,webUrl)"
+    }
+
+    $buildsValue = Get-PropertyValue -InputObject $response -Name "build"
+    if ($null -eq $buildsValue) {
+        return @()
+    }
+
+    @($buildsValue)
+}
+
+function Get-PipelineInfo {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$BuildType
+    )
+
+    $redStatuses = @("FAILURE", "ERROR")
+    $projectName = [string](Get-PropertyValue -InputObject $BuildType -Name "projectName")
+    $projectId = [string](Get-PropertyValue -InputObject $BuildType -Name "projectId")
+    $topLevelProjectName = Get-TopLevelProjectName -ProjectId $projectId -FallbackProjectName $projectName
+    $pipelineName = [string](Get-PropertyValue -InputObject $BuildType -Name "name")
+    $pipelineUrl = [string](Get-PropertyValue -InputObject $BuildType -Name "webUrl")
+    $buildTypeId = [string](Get-PropertyValue -InputObject $BuildType -Name "id")
+    if ([string]::IsNullOrWhiteSpace($buildTypeId)) {
+        return $null
+    }
+
+    $builds = @(Get-RecentFinishedBuilds -BuildTypeId $buildTypeId)
+    if ($builds.Count -eq 0) {
+        return [pscustomobject]@{
+            ProjectName             = $projectName
+            TopLevelProjectName     = $topLevelProjectName
+            PipelineName            = $pipelineName
+            PipelineUrl             = $pipelineUrl
+            HealthStatus            = "OTHER"
+            LatestStatus            = "NO_BUILDS"
+            LatestBuildNumber       = ""
+            LatestBuildUrl          = ""
+            LatestBuildDate         = $null
+            LatestBuildDateText     = "No finished builds"
+            CurrentRedBuildDate     = $null
+            CurrentRedBuildDateText = ""
+            BecameRedDate           = $null
+            BecameRedText           = ""
+            RedBuildCount           = 0
+            IsRed                   = $false
+            IsGreen                 = $false
+        }
+    }
+
+    $latestBuild = $builds[0]
+    $latestStatus = ([string](Get-PropertyValue -InputObject $latestBuild -Name "status")).ToUpperInvariant()
+    $latestBuildDate = ConvertFrom-TeamCityDate -DateText ([string](Get-PropertyValue -InputObject $latestBuild -Name "finishDate"))
+    $latestBuildDateText = if ($null -eq $latestBuildDate) { "Unknown" } else { $latestBuildDate.ToString("yyyy-MM-dd HH:mm:ss") }
+    $isRed = $redStatuses -contains $latestStatus
+    $isGreen = $latestStatus -eq "SUCCESS"
+    $healthStatus = if ($isRed) { "RED" } elseif ($isGreen) { "GREEN" } else { "OTHER" }
+
+    $becameRedDate = $null
+    $becameRedText = ""
+    $currentRedBuildDate = $null
+    $currentRedBuildDateText = ""
+    $redBuildCount = 0
+    $redSinceBuild = $latestBuild
+
+    if ($isRed) {
+        $currentRedBuildDate = $latestBuildDate
+        $currentRedBuildDateText = $latestBuildDateText
+        $foundNonRedBuild = $false
+
+        foreach ($build in $builds) {
+            $status = ([string](Get-PropertyValue -InputObject $build -Name "status")).ToUpperInvariant()
+            if ($redStatuses -contains $status) {
+                $redSinceBuild = $build
+                $redBuildCount++
+                continue
+            }
+
+            $foundNonRedBuild = $true
+            break
+        }
+
+        $becameRedDate = ConvertFrom-TeamCityDate -DateText ([string](Get-PropertyValue -InputObject $redSinceBuild -Name "finishDate"))
+        $datePrefix = ""
+        if (-not $foundNonRedBuild) {
+            $datePrefix = "At least since "
+        }
+
+        $becameRedText = if ($null -eq $becameRedDate) { "Unknown" } else { "$datePrefix$($becameRedDate.ToString("yyyy-MM-dd HH:mm:ss"))" }
+    }
+
+    [pscustomobject]@{
+        ProjectName             = $projectName
+        TopLevelProjectName     = $topLevelProjectName
+        PipelineName            = $pipelineName
+        PipelineUrl             = $pipelineUrl
+        HealthStatus            = $healthStatus
+        LatestStatus            = $latestStatus
+        LatestBuildNumber       = [string](Get-PropertyValue -InputObject $latestBuild -Name "number")
+        LatestBuildUrl          = [string](Get-PropertyValue -InputObject $latestBuild -Name "webUrl")
+        LatestBuildDate         = $latestBuildDate
+        LatestBuildDateText     = $latestBuildDateText
+        CurrentRedBuildDate     = $currentRedBuildDate
+        CurrentRedBuildDateText = $currentRedBuildDateText
+        BecameRedDate           = $becameRedDate
+        BecameRedText           = $becameRedText
+        RedBuildCount           = $redBuildCount
+        IsRed                   = $isRed
+        IsGreen                 = $isGreen
+    }
+}
+
+function New-ReportHtml {
+    param(
+        [array]$Rows,
+
+        [datetime]$GeneratedAt
+    )
+
+    $pipelineCount = @($Rows).Count
+    if ($pipelineCount -eq 0) {
+        $projectCount = 0
+    }
+    else {
+        $projectCount = @($Rows | Select-Object -ExpandProperty ProjectName -Unique).Count
+    }
+
+    $sortedRows = @($Rows | Sort-Object ProjectName, BecameRedDate, PipelineName)
+    $generatedAtText = ConvertTo-HtmlText ($GeneratedAt.ToString("yyyy-MM-dd HH:mm:ss"))
+    $teamCityUrlText = ConvertTo-HtmlText $TeamCityUrl
+
+    $html = New-Object System.Text.StringBuilder
+    [void]$html.AppendLine("<!doctype html>")
+    [void]$html.AppendLine("<html lang=""en"">")
+    [void]$html.AppendLine("<head>")
+    [void]$html.AppendLine("<meta charset=""utf-8"">")
+    [void]$html.AppendLine("<meta name=""viewport"" content=""width=device-width, initial-scale=1"">")
+    [void]$html.AppendLine("<title>Red TeamCity Pipelines</title>")
+    [void]$html.AppendLine("<style>")
+    [void]$html.AppendLine("body{margin:0;background:#f5f7fa;color:#18212f;font-family:Segoe UI,Arial,sans-serif;font-size:14px;}")
+    [void]$html.AppendLine("header{background:#243447;color:#fff;padding:28px 36px;border-bottom:5px solid #c5282f;}")
+    [void]$html.AppendLine("h1{margin:0 0 8px;font-size:28px;font-weight:650;letter-spacing:0;}")
+    [void]$html.AppendLine(".meta{color:#d9e2ec;font-size:13px;}")
+    [void]$html.AppendLine(".summary{display:flex;gap:16px;flex-wrap:wrap;padding:22px 36px;background:#fff;border-bottom:1px solid #d8dee6;}")
+    [void]$html.AppendLine(".metric{min-width:180px;}")
+    [void]$html.AppendLine(".metric strong{display:block;font-size:26px;color:#c5282f;line-height:1.1;}")
+    [void]$html.AppendLine("main{padding:8px 36px 36px;}")
+    [void]$html.AppendLine("section{margin-top:26px;}")
+    [void]$html.AppendLine("h2{font-size:20px;margin:0 0 10px;color:#243447;letter-spacing:0;}")
+    [void]$html.AppendLine("table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d8dee6;}")
+    [void]$html.AppendLine("th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #e6ebf1;vertical-align:top;}")
+    [void]$html.AppendLine("th{background:#edf2f7;color:#394b5f;font-size:12px;text-transform:uppercase;}")
+    [void]$html.AppendLine("tr:last-child td{border-bottom:0;}")
+    [void]$html.AppendLine("a{color:#0f6c8c;text-decoration:none;}")
+    [void]$html.AppendLine("a:hover{text-decoration:underline;}")
+    [void]$html.AppendLine(".status{display:inline-block;background:#c5282f;color:#fff;border-radius:4px;padding:3px 7px;font-size:12px;font-weight:650;}")
+    [void]$html.AppendLine(".empty{background:#fff;border:1px solid #d8dee6;padding:24px;margin-top:26px;}")
+    [void]$html.AppendLine("@media(max-width:720px){header,.summary,main{padding-left:18px;padding-right:18px;}table{font-size:13px;}th,td{padding:8px;}}")
+    [void]$html.AppendLine("</style>")
+    [void]$html.AppendLine("</head>")
+    [void]$html.AppendLine("<body>")
+    [void]$html.AppendLine("<header>")
+    [void]$html.AppendLine("<h1>Red TeamCity Pipelines</h1>")
+    [void]$html.AppendLine("<div class=""meta"">Generated $generatedAtText from $teamCityUrlText</div>")
+    [void]$html.AppendLine("</header>")
+    [void]$html.AppendLine("<div class=""summary"">")
+    [void]$html.AppendLine("<div class=""metric""><strong>$pipelineCount</strong>red pipelines</div>")
+    [void]$html.AppendLine("<div class=""metric""><strong>$projectCount</strong>projects affected</div>")
+    [void]$html.AppendLine("<div class=""metric""><strong>$MaxBuildsToScan</strong>builds scanned per pipeline</div>")
+    [void]$html.AppendLine("</div>")
+    [void]$html.AppendLine("<main>")
+
+    if ($pipelineCount -eq 0) {
+        [void]$html.AppendLine("<div class=""empty"">No red pipelines were found.</div>")
+    }
+    else {
+        foreach ($projectGroup in ($sortedRows | Group-Object ProjectName)) {
+            [void]$html.AppendLine("<section>")
+            [void]$html.AppendLine("<h2>$((ConvertTo-HtmlText $projectGroup.Name))</h2>")
+            [void]$html.AppendLine("<table>")
+            [void]$html.AppendLine("<thead><tr><th>Pipeline</th><th>Became Red</th><th>Current Red Build Date</th><th>Latest Build</th><th>Status</th><th>Failed Builds</th></tr></thead>")
+            [void]$html.AppendLine("<tbody>")
+
+            foreach ($row in ($projectGroup.Group | Sort-Object BecameRedDate, PipelineName)) {
+                $pipelineName = ConvertTo-HtmlText $row.PipelineName
+                $becameRed = ConvertTo-HtmlText $row.BecameRedText
+                $currentRedBuildDate = ConvertTo-HtmlText $row.CurrentRedBuildDateText
+                $status = ConvertTo-HtmlText $row.LatestStatus
+                $redBuildCount = ConvertTo-HtmlText $row.RedBuildCount
+                $latestBuildNumber = ConvertTo-HtmlText $row.LatestBuildNumber
+
+                if (-not [string]::IsNullOrWhiteSpace($row.PipelineUrl)) {
+                    $pipelineHref = ConvertTo-HtmlText $row.PipelineUrl
+                    $pipelineName = "<a href=""$pipelineHref"">$pipelineName</a>"
+                }
+
+                if (-not [string]::IsNullOrWhiteSpace($row.LatestBuildUrl)) {
+                    $latestBuildHref = ConvertTo-HtmlText $row.LatestBuildUrl
+                    $latestBuildNumber = "<a href=""$latestBuildHref"">$latestBuildNumber</a>"
+                }
+
+                [void]$html.AppendLine("<tr><td>$pipelineName</td><td>$becameRed</td><td>$currentRedBuildDate</td><td>$latestBuildNumber</td><td><span class=""status"">$status</span></td><td>$redBuildCount</td></tr>")
+            }
+
+            [void]$html.AppendLine("</tbody>")
+            [void]$html.AppendLine("</table>")
+            [void]$html.AppendLine("</section>")
+        }
+    }
+
+    [void]$html.AppendLine("</main>")
+    [void]$html.AppendLine("</body>")
+    [void]$html.AppendLine("</html>")
+
+    $html.ToString()
+}
+
+function New-SummaryReportHtml {
+    param(
+        [array]$Rows,
+
+        [datetime]$GeneratedAt
+    )
+
+    $rowsArray = @($Rows)
+    $totalCount = $rowsArray.Count
+    $greenRows = @($rowsArray | Where-Object { $_.HealthStatus -eq "GREEN" })
+    $redRows = @($rowsArray | Where-Object { $_.HealthStatus -eq "RED" })
+    $otherRows = @($rowsArray | Where-Object { $_.HealthStatus -eq "OTHER" })
+
+    $greenCount = $greenRows.Count
+    $redCount = $redRows.Count
+    $otherCount = $otherRows.Count
+    $affectedProjects = if ($redCount -eq 0) { 0 } else { @($redRows | Select-Object -ExpandProperty ProjectName -Unique).Count }
+    $generatedAtText = ConvertTo-HtmlText ($GeneratedAt.ToString("yyyy-MM-dd HH:mm:ss"))
+    $teamCityUrlText = ConvertTo-HtmlText $TeamCityUrl
+
+    if ($totalCount -eq 0) {
+        $greenPercent = 0
+        $redPercent = 0
+        $otherPercent = 0
+        $greenDegrees = 0
+        $redEndDegrees = 0
+    }
+    else {
+        $greenPercent = [Math]::Round(($greenCount / $totalCount) * 100, 1)
+        $redPercent = [Math]::Round(($redCount / $totalCount) * 100, 1)
+        $otherPercent = [Math]::Round(($otherCount / $totalCount) * 100, 1)
+        $greenDegrees = ($greenCount / $totalCount) * 360
+        $redEndDegrees = $greenDegrees + (($redCount / $totalCount) * 360)
+    }
+
+    $culture = [Globalization.CultureInfo]::InvariantCulture
+    $greenDegreesText = $greenDegrees.ToString("0.###", $culture)
+    $redEndDegreesText = $redEndDegrees.ToString("0.###", $culture)
+    $greenPercentText = ConvertTo-HtmlText ("$greenPercent%")
+    $redPercentText = ConvertTo-HtmlText ("$redPercent%")
+    $otherPercentText = ConvertTo-HtmlText ("$otherPercent%")
+    $pieBackground = "conic-gradient(#2f8f5b 0deg ${greenDegreesText}deg,#c5282f ${greenDegreesText}deg ${redEndDegreesText}deg,#7b8794 ${redEndDegreesText}deg 360deg)"
+
+    $projectSummaries = foreach ($projectGroup in ($rowsArray | Group-Object ProjectName)) {
+        $projectRows = @($projectGroup.Group)
+        $projectGreenCount = @($projectRows | Where-Object { $_.HealthStatus -eq "GREEN" }).Count
+        $projectRedCount = @($projectRows | Where-Object { $_.HealthStatus -eq "RED" }).Count
+        $projectOtherCount = @($projectRows | Where-Object { $_.HealthStatus -eq "OTHER" }).Count
+        $projectTotalCount = $projectRows.Count
+        $projectRedPercent = if ($projectTotalCount -eq 0) { 0 } else { [Math]::Round(($projectRedCount / $projectTotalCount) * 100, 1) }
+
+        [pscustomobject]@{
+            ProjectName = $projectGroup.Name
+            Total       = $projectTotalCount
+            Green       = $projectGreenCount
+            Red         = $projectRedCount
+            Other       = $projectOtherCount
+            RedPercent  = $projectRedPercent
+        }
+    }
+
+    $html = New-Object System.Text.StringBuilder
+    [void]$html.AppendLine("<!doctype html>")
+    [void]$html.AppendLine("<html lang=""en"">")
+    [void]$html.AppendLine("<head>")
+    [void]$html.AppendLine("<meta charset=""utf-8"">")
+    [void]$html.AppendLine("<meta name=""viewport"" content=""width=device-width, initial-scale=1"">")
+    [void]$html.AppendLine("<title>Unison TeamCity Pipeline Health</title>")
+    [void]$html.AppendLine("<style>")
+    [void]$html.AppendLine("body{margin:0;background:#f5f7fa;color:#18212f;font-family:Segoe UI,Arial,sans-serif;font-size:14px;}")
+    [void]$html.AppendLine("header{background:#243447;color:#fff;padding:28px 36px;border-bottom:5px solid #2f8f5b;}")
+    [void]$html.AppendLine("h1{margin:0 0 8px;font-size:28px;font-weight:650;letter-spacing:0;}")
+    [void]$html.AppendLine(".meta{color:#d9e2ec;font-size:13px;}")
+    [void]$html.AppendLine(".summary{display:flex;gap:16px;flex-wrap:wrap;padding:22px 36px;background:#fff;border-bottom:1px solid #d8dee6;}")
+    [void]$html.AppendLine(".metric{min-width:170px;}")
+    [void]$html.AppendLine(".metric strong{display:block;font-size:26px;line-height:1.1;}")
+    [void]$html.AppendLine(".green strong{color:#2f8f5b;}.red strong{color:#c5282f;}.other strong{color:#7b8794;}")
+    [void]$html.AppendLine("main{padding:26px 36px 36px;}")
+    [void]$html.AppendLine(".chart-band{display:grid;grid-template-columns:260px minmax(260px,1fr);gap:28px;align-items:center;background:#fff;border:1px solid #d8dee6;padding:24px;}")
+    [void]$html.AppendLine(".pie{width:220px;height:220px;border-radius:50%;background:$pieBackground;border:1px solid #d8dee6;}")
+    [void]$html.AppendLine(".legend{display:grid;gap:10px;max-width:520px;}")
+    [void]$html.AppendLine(".legend-row{display:grid;grid-template-columns:18px 120px 1fr;gap:10px;align-items:center;}")
+    [void]$html.AppendLine(".swatch{width:14px;height:14px;border-radius:3px;display:block;}")
+    [void]$html.AppendLine(".swatch.green{background:#2f8f5b;}.swatch.red{background:#c5282f;}.swatch.other{background:#7b8794;}")
+    [void]$html.AppendLine("section{margin-top:26px;}")
+    [void]$html.AppendLine("h2{font-size:20px;margin:0 0 10px;color:#243447;letter-spacing:0;}")
+    [void]$html.AppendLine("table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d8dee6;}")
+    [void]$html.AppendLine("th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #e6ebf1;vertical-align:top;}")
+    [void]$html.AppendLine("th{background:#edf2f7;color:#394b5f;font-size:12px;text-transform:uppercase;}")
+    [void]$html.AppendLine("tr:last-child td{border-bottom:0;}")
+    [void]$html.AppendLine(".note{color:#526477;font-size:13px;margin-top:8px;}")
+    [void]$html.AppendLine("@media(max-width:760px){header,.summary,main{padding-left:18px;padding-right:18px;}.chart-band{grid-template-columns:1fr;}.pie{width:180px;height:180px;}table{font-size:13px;}th,td{padding:8px;}}")
+    [void]$html.AppendLine("</style>")
+    [void]$html.AppendLine("</head>")
+    [void]$html.AppendLine("<body>")
+    [void]$html.AppendLine("<header>")
+    [void]$html.AppendLine("<h1>Unison TeamCity Pipeline Health</h1>")
+    [void]$html.AppendLine("<div class=""meta"">Generated $generatedAtText from $teamCityUrlText</div>")
+    [void]$html.AppendLine("</header>")
+    [void]$html.AppendLine("<div class=""summary"">")
+    [void]$html.AppendLine("<div class=""metric""><strong>$totalCount</strong>pipelines scanned</div>")
+    [void]$html.AppendLine("<div class=""metric green""><strong>$greenCount</strong>green pipelines</div>")
+    [void]$html.AppendLine("<div class=""metric red""><strong>$redCount</strong>red pipelines</div>")
+    [void]$html.AppendLine("<div class=""metric other""><strong>$otherCount</strong>other/no build</div>")
+    [void]$html.AppendLine("<div class=""metric red""><strong>$affectedProjects</strong>projects with red</div>")
+    [void]$html.AppendLine("</div>")
+    [void]$html.AppendLine("<main>")
+    [void]$html.AppendLine("<div class=""chart-band"">")
+    [void]$html.AppendLine("<div class=""pie"" role=""img"" aria-label=""Pipeline health pie chart""></div>")
+    [void]$html.AppendLine("<div class=""legend"">")
+    [void]$html.AppendLine("<div class=""legend-row""><span class=""swatch green""></span><strong>Green</strong><span>$greenCount pipelines ($greenPercentText)</span></div>")
+    [void]$html.AppendLine("<div class=""legend-row""><span class=""swatch red""></span><strong>Red</strong><span>$redCount pipelines ($redPercentText)</span></div>")
+    [void]$html.AppendLine("<div class=""legend-row""><span class=""swatch other""></span><strong>Other</strong><span>$otherCount pipelines ($otherPercentText)</span></div>")
+    [void]$html.AppendLine("<div class=""note"">Other includes pipelines whose latest finished build was not SUCCESS, FAILURE, or ERROR, plus pipelines with no finished builds in the scanned data.</div>")
+    [void]$html.AppendLine("</div>")
+    [void]$html.AppendLine("</div>")
+    [void]$html.AppendLine("<section>")
+    [void]$html.AppendLine("<h2>Project Breakdown</h2>")
+    [void]$html.AppendLine("<table>")
+    [void]$html.AppendLine("<thead><tr><th>Project</th><th>Total</th><th>Green</th><th>Red</th><th>Other</th><th>Red %</th></tr></thead>")
+    [void]$html.AppendLine("<tbody>")
+
+    foreach ($project in ($projectSummaries | Sort-Object Red -Descending)) {
+        $projectName = ConvertTo-HtmlText $project.ProjectName
+        $projectTotal = ConvertTo-HtmlText $project.Total
+        $projectGreen = ConvertTo-HtmlText $project.Green
+        $projectRed = ConvertTo-HtmlText $project.Red
+        $projectOther = ConvertTo-HtmlText $project.Other
+        $projectRedPercent = ConvertTo-HtmlText ("$($project.RedPercent)%")
+
+        [void]$html.AppendLine("<tr><td>$projectName</td><td>$projectTotal</td><td>$projectGreen</td><td>$projectRed</td><td>$projectOther</td><td>$projectRedPercent</td></tr>")
+    }
+
+    [void]$html.AppendLine("</tbody>")
+    [void]$html.AppendLine("</table>")
+    [void]$html.AppendLine("</section>")
+    [void]$html.AppendLine("</main>")
+    [void]$html.AppendLine("</body>")
+    [void]$html.AppendLine("</html>")
+
+    $html.ToString()
+}
+
+function New-ProjectChartsReportHtml {
+    param(
+        [array]$Rows,
+
+        [datetime]$GeneratedAt
+    )
+
+    $rowsArray = @($Rows)
+    $projectGroups = @($rowsArray | Group-Object {
+        $topLevelProjectName = [string](Get-PropertyValue -InputObject $_ -Name "TopLevelProjectName")
+        if ([string]::IsNullOrWhiteSpace($topLevelProjectName)) {
+            $topLevelProjectName = [string](Get-PropertyValue -InputObject $_ -Name "ProjectName")
+        }
+
+        $topLevelProjectName
+    })
+    $totalProjectCount = $projectGroups.Count
+    $totalPipelineCount = $rowsArray.Count
+    $generatedAtText = ConvertTo-HtmlText ($GeneratedAt.ToString("yyyy-MM-dd HH:mm:ss"))
+    $teamCityUrlText = ConvertTo-HtmlText $TeamCityUrl
+    $culture = [Globalization.CultureInfo]::InvariantCulture
+
+    $projectSummaries = foreach ($projectGroup in $projectGroups) {
+        $projectRows = @($projectGroup.Group)
+        $projectTotalCount = $projectRows.Count
+        $projectGreenCount = @($projectRows | Where-Object { $_.HealthStatus -eq "GREEN" }).Count
+        $projectRedCount = @($projectRows | Where-Object { $_.HealthStatus -eq "RED" }).Count
+        $projectOtherCount = @($projectRows | Where-Object { $_.HealthStatus -eq "OTHER" }).Count
+
+        if ($projectTotalCount -eq 0) {
+            $greenPercent = 0
+            $redPercent = 0
+            $otherPercent = 0
+            $greenDegrees = 0
+            $redEndDegrees = 0
+        }
+        else {
+            $greenPercent = [Math]::Round(($projectGreenCount / $projectTotalCount) * 100, 1)
+            $redPercent = [Math]::Round(($projectRedCount / $projectTotalCount) * 100, 1)
+            $otherPercent = [Math]::Round(($projectOtherCount / $projectTotalCount) * 100, 1)
+            $greenDegrees = ($projectGreenCount / $projectTotalCount) * 360
+            $redEndDegrees = $greenDegrees + (($projectRedCount / $projectTotalCount) * 360)
+        }
+
+        $greenDegreesText = $greenDegrees.ToString("0.###", $culture)
+        $redEndDegreesText = $redEndDegrees.ToString("0.###", $culture)
+        $pieBackground = "conic-gradient(#2f8f5b 0deg ${greenDegreesText}deg,#c5282f ${greenDegreesText}deg ${redEndDegreesText}deg,#7b8794 ${redEndDegreesText}deg 360deg)"
+
+        [pscustomobject]@{
+            ProjectName   = $projectGroup.Name
+            Total         = $projectTotalCount
+            Green         = $projectGreenCount
+            Red           = $projectRedCount
+            Other         = $projectOtherCount
+            GreenPercent  = $greenPercent
+            RedPercent    = $redPercent
+            OtherPercent  = $otherPercent
+            PieBackground = $pieBackground
+        }
+    }
+
+    $html = New-Object System.Text.StringBuilder
+    [void]$html.AppendLine("<!doctype html>")
+    [void]$html.AppendLine("<html lang=""en"">")
+    [void]$html.AppendLine("<head>")
+    [void]$html.AppendLine("<meta charset=""utf-8"">")
+    [void]$html.AppendLine("<meta name=""viewport"" content=""width=device-width, initial-scale=1"">")
+    [void]$html.AppendLine("<title>Unison TeamCity Top-Level Project Health Charts</title>")
+    [void]$html.AppendLine("<style>")
+    [void]$html.AppendLine("body{margin:0;background:#f5f7fa;color:#18212f;font-family:Segoe UI,Arial,sans-serif;font-size:14px;}")
+    [void]$html.AppendLine("header{background:#243447;color:#fff;padding:28px 36px;border-bottom:5px solid #0f6c8c;}")
+    [void]$html.AppendLine("h1{margin:0 0 8px;font-size:28px;font-weight:650;letter-spacing:0;}")
+    [void]$html.AppendLine(".meta{color:#d9e2ec;font-size:13px;}")
+    [void]$html.AppendLine(".summary{display:flex;gap:16px;flex-wrap:wrap;padding:22px 36px;background:#fff;border-bottom:1px solid #d8dee6;}")
+    [void]$html.AppendLine(".metric{min-width:180px;}")
+    [void]$html.AppendLine(".metric strong{display:block;font-size:26px;color:#0f6c8c;line-height:1.1;}")
+    [void]$html.AppendLine("main{padding:26px 36px 36px;}")
+    [void]$html.AppendLine(".project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;}")
+    [void]$html.AppendLine(".project-card{background:#fff;border:1px solid #d8dee6;padding:18px;}")
+    [void]$html.AppendLine(".project-card h2{font-size:18px;margin:0 0 14px;color:#243447;letter-spacing:0;}")
+    [void]$html.AppendLine(".card-body{display:grid;grid-template-columns:140px minmax(0,1fr);gap:18px;align-items:center;}")
+    [void]$html.AppendLine(".pie{width:128px;height:128px;border-radius:50%;border:1px solid #d8dee6;}")
+    [void]$html.AppendLine(".counts{display:grid;gap:8px;}")
+    [void]$html.AppendLine(".status-row{display:grid;grid-template-columns:14px 56px 1fr;gap:8px;align-items:center;}")
+    [void]$html.AppendLine(".swatch{width:12px;height:12px;border-radius:3px;display:block;}")
+    [void]$html.AppendLine(".swatch.green{background:#2f8f5b;}.swatch.red{background:#c5282f;}.swatch.other{background:#7b8794;}")
+    [void]$html.AppendLine(".total{margin-top:12px;color:#526477;font-size:13px;}")
+    [void]$html.AppendLine(".empty{background:#fff;border:1px solid #d8dee6;padding:24px;}")
+    [void]$html.AppendLine("@media(max-width:760px){header,.summary,main{padding-left:18px;padding-right:18px;}.project-grid{grid-template-columns:1fr;}.card-body{grid-template-columns:1fr;}.pie{width:160px;height:160px;}}")
+    [void]$html.AppendLine("</style>")
+    [void]$html.AppendLine("</head>")
+    [void]$html.AppendLine("<body>")
+    [void]$html.AppendLine("<header>")
+    [void]$html.AppendLine("<h1>Unison TeamCity Top-Level Project Health Charts</h1>")
+    [void]$html.AppendLine("<div class=""meta"">Generated $generatedAtText from $teamCityUrlText</div>")
+    [void]$html.AppendLine("</header>")
+    [void]$html.AppendLine("<div class=""summary"">")
+    [void]$html.AppendLine("<div class=""metric""><strong>$totalProjectCount</strong>top-level projects</div>")
+    [void]$html.AppendLine("<div class=""metric""><strong>$totalPipelineCount</strong>pipelines scanned</div>")
+    [void]$html.AppendLine("</div>")
+    [void]$html.AppendLine("<main>")
+
+    if ($totalProjectCount -eq 0) {
+        [void]$html.AppendLine("<div class=""empty"">No project data was found.</div>")
+    }
+    else {
+        [void]$html.AppendLine("<div class=""project-grid"">")
+
+        foreach ($project in ($projectSummaries | Sort-Object @{ Expression = "Red"; Descending = $true }, ProjectName)) {
+            $projectName = ConvertTo-HtmlText $project.ProjectName
+            $greenText = ConvertTo-HtmlText "$($project.Green) ($($project.GreenPercent)%)"
+            $redText = ConvertTo-HtmlText "$($project.Red) ($($project.RedPercent)%)"
+            $otherText = ConvertTo-HtmlText "$($project.Other) ($($project.OtherPercent)%)"
+            $totalText = ConvertTo-HtmlText "$($project.Total) total pipelines"
+            $pieBackground = ConvertTo-HtmlText $project.PieBackground
+
+            [void]$html.AppendLine("<section class=""project-card"">")
+            [void]$html.AppendLine("<h2>$projectName</h2>")
+            [void]$html.AppendLine("<div class=""card-body"">")
+            [void]$html.AppendLine("<div class=""pie"" style=""background:$pieBackground"" role=""img"" aria-label=""$projectName pipeline health pie chart""></div>")
+            [void]$html.AppendLine("<div class=""counts"">")
+            [void]$html.AppendLine("<div class=""status-row""><span class=""swatch green""></span><strong>Green</strong><span>$greenText</span></div>")
+            [void]$html.AppendLine("<div class=""status-row""><span class=""swatch red""></span><strong>Red</strong><span>$redText</span></div>")
+            [void]$html.AppendLine("<div class=""status-row""><span class=""swatch other""></span><strong>Other</strong><span>$otherText</span></div>")
+            [void]$html.AppendLine("<div class=""total"">$totalText</div>")
+            [void]$html.AppendLine("</div>")
+            [void]$html.AppendLine("</div>")
+            [void]$html.AppendLine("</section>")
+        }
+
+        [void]$html.AppendLine("</div>")
+    }
+
+    [void]$html.AppendLine("</main>")
+    [void]$html.AppendLine("</body>")
+    [void]$html.AppendLine("</html>")
+
+    $html.ToString()
+}
+
+$buildTypes = @(Get-TeamCityBuildTypes)
+$allPipelines = @()
+$redPipelines = @()
+$index = 0
+
+foreach ($buildType in $buildTypes) {
+    $index++
+    $projectName = [string](Get-PropertyValue -InputObject $buildType -Name "projectName")
+    $pipelineName = [string](Get-PropertyValue -InputObject $buildType -Name "name")
+
+    Write-Progress -Activity "Scanning TeamCity pipelines" -Status "$projectName - $pipelineName" -PercentComplete (($index / [Math]::Max($buildTypes.Count, 1)) * 100)
+
+    if (Test-NameExcluded -Name $projectName -Patterns $ExcludeProjectName) {
+        continue
+    }
+
+    if (Test-NameExcluded -Name $pipelineName -Patterns $ExcludePipelineName) {
+        continue
+    }
+
+    try {
+        $pipelineInfo = Get-PipelineInfo -BuildType $buildType
+        if ($null -ne $pipelineInfo) {
+            $allPipelines += $pipelineInfo
+
+            if ($pipelineInfo.IsRed) {
+                $redPipelines += $pipelineInfo
+            }
+        }
+    }
+    catch {
+        Write-Warning "Could not inspect '$projectName - $pipelineName': $($_.Exception.Message)"
+    }
+}
+
+Write-Progress -Activity "Scanning TeamCity pipelines" -Completed
+
+try {
+    Write-Host "Building HTML reports..."
+    $reportHtml = New-ReportHtml -Rows $redPipelines -GeneratedAt (Get-Date)
+    $resolvedOutputPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputPath)
+    $reportHtml | Set-Content -LiteralPath $resolvedOutputPath -Encoding UTF8
+
+    $summaryReportHtml = New-SummaryReportHtml -Rows $allPipelines -GeneratedAt (Get-Date)
+    $resolvedSummaryOutputPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($SummaryOutputPath)
+    $summaryReportHtml | Set-Content -LiteralPath $resolvedSummaryOutputPath -Encoding UTF8
+
+    $projectChartsReportHtml = New-ProjectChartsReportHtml -Rows $allPipelines -GeneratedAt (Get-Date)
+    $resolvedProjectChartsOutputPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProjectChartsOutputPath)
+    $projectChartsReportHtml | Set-Content -LiteralPath $resolvedProjectChartsOutputPath -Encoding UTF8
+}
+catch {
+    throw "Failed while generating or writing the HTML reports: $($_.Exception.Message)"
+}
+
+Write-Host "Red pipeline report written to $resolvedOutputPath"
+Write-Host "Pipeline health report written to $resolvedSummaryOutputPath"
+Write-Host "Project health charts report written to $resolvedProjectChartsOutputPath"
+Write-Host "Red pipelines found: $($redPipelines.Count)"
+Write-Host "Pipelines included in health report: $($allPipelines.Count)"

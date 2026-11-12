@@ -1,0 +1,1196 @@
+{
+  "Runtime": "7.6.9",
+  "Edition": "Core",
+  "Chapters": [
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Words": 3246,
+      "Bytes": 23136
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Words": 3235,
+      "Bytes": 24656
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Words": 3201,
+      "Bytes": 23356
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Words": 3228,
+      "Bytes": 23399
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Words": 3233,
+      "Bytes": 23298
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Words": 3234,
+      "Bytes": 23770
+    },
+    {
+      "Chapter": "07-modules-manifests-and-loading.md",
+      "Words": 3224,
+      "Bytes": 23193
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Words": 3251,
+      "Bytes": 23273
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Words": 3186,
+      "Bytes": 23623
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Words": 3208,
+      "Bytes": 23162
+    },
+    {
+      "Chapter": "11-case-study-reading-the-existing-teamcity-report.md",
+      "Words": 3240,
+      "Bytes": 22903
+    },
+    {
+      "Chapter": "12-guided-refactoring-and-reference-architecture.md",
+      "Words": 3270,
+      "Bytes": 23984
+    }
+  ],
+  "Blocks": [
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 7,
+      "Errors": []
+    },
+    {
+      "Chapter": "01-powershell-execution-model.md",
+      "Block": 8,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 7,
+      "Errors": []
+    },
+    {
+      "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+      "Block": 8,
+      "Errors": []
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "03-errors-reliability-and-diagnostics.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "04-object-oriented-powershell-foundations.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "05-advanced-oop-and-composition.md",
+      "Block": 7,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "06-powershell-and-csharp-interoperability.md",
+      "Block": 7,
+      "Errors": []
+    },
+    {
+      "Chapter": "07-modules-manifests-and-loading.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "07-modules-manifests-and-loading.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "07-modules-manifests-and-loading.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "07-modules-manifests-and-loading.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "07-modules-manifests-and-loading.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "08-software-design-and-dependency-injection.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "09-rest-api-engineering-for-teamcity.md",
+      "Block": 7,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 4,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 5,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 6,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 7,
+      "Errors": []
+    },
+    {
+      "Chapter": "10-testing-static-analysis-and-ci.md",
+      "Block": 8,
+      "Errors": []
+    },
+    {
+      "Chapter": "11-case-study-reading-the-existing-teamcity-report.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "12-guided-refactoring-and-reference-architecture.md",
+      "Block": 1,
+      "Errors": []
+    },
+    {
+      "Chapter": "12-guided-refactoring-and-reference-architecture.md",
+      "Block": 2,
+      "Errors": []
+    },
+    {
+      "Chapter": "12-guided-refactoring-and-reference-architecture.md",
+      "Block": 3,
+      "Errors": []
+    },
+    {
+      "Chapter": "12-guided-refactoring-and-reference-architecture.md",
+      "Block": 4,
+      "Errors": []
+    }
+  ],
+  "Examples": [
+    {
+      "Name": "01-01.ps1",
+      "ExitCode": 0,
+      "Output": "System.String\r\nSystem.Int32\r\nFAILURE\r\nfailure\r\n\r\n   TypeName: System.Management.Automation.PSCustomObject\r\n\r\nName   MemberType   Definition\r\n----   ----------   ----------\r\nId     NoteProperty string Id=1001\r\nNumber NoteProperty string Number=2026.11.12.1\r\nStatus NoteProperty string Status=FAILURE",
+      "Error": ""
+    },
+    {
+      "Name": "01-02.ps1",
+      "ExitCode": 0,
+      "Output": "Id  Duration\r\n--  --------\r\n102       30\r\n103       20",
+      "Error": ""
+    },
+    {
+      "Name": "01-03.ps1",
+      "ExitCode": 0,
+      "Output": "Counts: 0, 1, 3",
+      "Error": ""
+    },
+    {
+      "Name": "01-04.ps1",
+      "ExitCode": 0,
+      "Output": "VERBOSE: Inspecting 2 builds\r\nResult type: Int32; count: 1",
+      "Error": ""
+    },
+    {
+      "Name": "01-05.ps1",
+      "ExitCode": 0,
+      "Output": "outer\r\nchanged\r\nci.example.com has 3 builds",
+      "Error": ""
+    },
+    {
+      "Name": "01-06.ps1",
+      "ExitCode": 0,
+      "Output": "2\r\n2\r\n2\r\n1",
+      "Error": ""
+    },
+    {
+      "Name": "01-07.ps1",
+      "ExitCode": 0,
+      "Output": "Build count: 0\r\nNo continuation property",
+      "Error": ""
+    },
+    {
+      "Name": "01-08.ps1",
+      "ExitCode": 0,
+      "Output": "Empty output: 0\r\nExplicit null slot: 1\r\nEnvelope rows: 0\r\n\r\nKey      Value\r\n---      -----\r\nBackend  RED\r\nFrontend GREEN",
+      "Error": ""
+    },
+    {
+      "Name": "02-01.ps1",
+      "ExitCode": 0,
+      "Output": "VERBOSE: Creating label for Backend_Build\r\nBackend_Build #12",
+      "Error": ""
+    },
+    {
+      "Name": "02-02.ps1",
+      "ExitCode": 0,
+      "Output": "Server                           PageSize\r\n------                           --------\r\nhttps://ci.example.com/teamcity/      100",
+      "Error": ""
+    },
+    {
+      "Name": "02-03.ps1",
+      "ExitCode": 0,
+      "Output": "Selector Value         IncludeArchived\r\n-------- -----         ---------------\r\nById     Backend_Build           False\r\nByName   Build backend            True",
+      "Error": ""
+    },
+    {
+      "Name": "02-04.ps1",
+      "ExitCode": 0,
+      "Output": "BuildTypeId\r\n-----------\r\nBackend_Build\r\nFrontend_Build",
+      "Error": ""
+    },
+    {
+      "Name": "02-05.ps1",
+      "ExitCode": 0,
+      "Output": "Total Red RedPercent\r\n----- --- ----------\r\n    2   1      50.00",
+      "Error": ""
+    },
+    {
+      "Name": "02-06.ps1",
+      "ExitCode": 0,
+      "Output": "What if: Performing the operation \"Write TeamCity text artifact\" on target \"C:\\Users\\amallick.ENGINEERS\\OneDrive - Unison Software, Inc\\Documents\\ChatGPT\\Learning before leaving usinos\\powershell-engineering-curriculum\\preview-only.html\".",
+      "Error": ""
+    },
+    {
+      "Name": "02-07.ps1",
+      "ExitCode": 0,
+      "Output": "Id            Count CountWasExplicit\r\n--            ----- ----------------\r\nBackend_Build    10            False\r\nBackend_Build    10             True",
+      "Error": ""
+    },
+    {
+      "Name": "02-08.ps1",
+      "ExitCode": 0,
+      "Output": "Count\r\n-----\r\n    0",
+      "Error": ""
+    },
+    {
+      "Name": "03-01.ps1",
+      "ExitCode": 0,
+      "Output": "ExceptionType                                            Category ErrorId\r\n-------------                                            -------- -------\r\nSystem.Management.Automation.ItemNotFoundException ObjectNotFound PathNotFound,Microsoft.PowerShell.Commands.GetItemCo.",
+      "Error": ""
+    },
+    {
+      "Name": "03-02.ps1",
+      "ExitCode": 0,
+      "Output": "InvalidTeamCityScanLimit,ConvertTo-PositiveScanLimit",
+      "Error": ""
+    },
+    {
+      "Name": "03-03.ps1",
+      "ExitCode": 0,
+      "Output": "Bytes written: 15\r\nCan write after disposal: False",
+      "Error": ""
+    },
+    {
+      "Name": "03-04.ps1",
+      "ExitCode": 0,
+      "Output": "completed\r\nAttempts: 3",
+      "Error": ""
+    },
+    {
+      "Name": "03-05.ps1",
+      "ExitCode": 0,
+      "Output": "Eligible   : 3\r\nInspected  : 2\r\nFailed     : 1\r\nIsComplete : False\r\nRows       : {@{Id=Backend_Build; Health=GREEN}, @{Id=Frontend_Build; Health=GREEN}}\r\nFailures   : {@{Id=Unavailable_Build; Message=Simulated permission failure}}",
+      "Error": ""
+    },
+    {
+      "Name": "03-06.ps1",
+      "ExitCode": 0,
+      "Output": "Handled: Simulated render failure\r\nTemporary file exists: False",
+      "Error": ""
+    },
+    {
+      "Name": "04-01.ps1",
+      "ExitCode": 0,
+      "Output": "True\r\n1001 #2026.11.12.1: FAILURE\r\n\r\n   TypeName: BuildObservation\r\n\r\nName        MemberType Definition\r\n----        ---------- ----------\r\nEquals      Method     bool Equals(System.Object obj)\r\nGetHashCode Method     int GetHashCode()\r\nGetType     Method     type GetType()\r\nIsRed       Method     bool IsRed()\r\nToString    Method     string ToString()\r\nId          Property   string Id {get;set;}\r\nNumber      Property   string Number {get;set;}\r\nStatus      Property   string Status {get;set;}",
+      "Error": ""
+    },
+    {
+      "Name": "04-02.ps1",
+      "ExitCode": 0,
+      "Output": "Inspect up to 100 recent builds\r\nInspect up to 25 recent builds",
+      "Error": ""
+    },
+    {
+      "Name": "04-03.ps1",
+      "ExitCode": 0,
+      "Output": "2\r\n-5",
+      "Error": ""
+    },
+    {
+      "Name": "04-04.ps1",
+      "ExitCode": 0,
+      "Output": "Changed\r\n1\r\n1",
+      "Error": ""
+    },
+    {
+      "Name": "04-05.ps1",
+      "ExitCode": 0,
+      "Output": "2026-11-12 14:00:00 +00:00\r\nUnknown",
+      "Error": ""
+    },
+    {
+      "Name": "04-06.ps1",
+      "ExitCode": 0,
+      "Output": "50\r\nRejected an out-of-range assignment\r\n50",
+      "Error": ""
+    },
+    {
+      "Name": "05-01.ps1",
+      "ExitCode": 0,
+      "Output": "FAILURE",
+      "Error": ""
+    },
+    {
+      "Name": "05-02.ps1",
+      "ExitCode": 0,
+      "Output": "raw-data: application/octet-stream\r\nhealth-report: text/html",
+      "Error": ""
+    },
+    {
+      "Name": "05-03.ps1",
+      "ExitCode": 0,
+      "Output": "True",
+      "Error": ""
+    },
+    {
+      "Name": "05-04.ps1",
+      "ExitCode": 0,
+      "Output": "2",
+      "Error": ""
+    },
+    {
+      "Name": "05-05.ps1",
+      "ExitCode": 0,
+      "Output": "morning\r\nevening\r\n2",
+      "Error": ""
+    },
+    {
+      "Name": "05-06.ps1",
+      "ExitCode": 0,
+      "Output": "RawStatus Health\r\n--------- ------\r\nSUCCESS    Green\r\nFAILURE      Red\r\nUNKNOWN    Other",
+      "Error": ""
+    },
+    {
+      "Name": "05-07.ps1",
+      "ExitCode": 0,
+      "Output": "Id Status  Call\r\n-- ------  ----\r\nA  FAILURE    1\r\nB  FAILURE    2\r\nC  SUCCESS    1",
+      "Error": ""
+    },
+    {
+      "Name": "06-01.ps1",
+      "ExitCode": 0,
+      "Output": "2026-11-12T14:00:00.0000000+00:00\r\n&lt;Backend &amp; API&gt;\r\nbuildType%3A%28id%3ABackend_Build%29%2Ccount%3A100\r\n<h1>Pipeline health</h1>\r\n<p>Example</p>",
+      "Error": ""
+    },
+    {
+      "Name": "06-02.ps1",
+      "ExitCode": 0,
+      "Output": "2\r\nBackend",
+      "Error": ""
+    },
+    {
+      "Name": "06-03.ps1",
+      "ExitCode": 0,
+      "Output": "True\r\nFAILURE",
+      "Error": ""
+    },
+    {
+      "Name": "06-04.ps1",
+      "ExitCode": 0,
+      "Output": "True\r\nOTHER",
+      "Error": ""
+    },
+    {
+      "Name": "06-05.ps1",
+      "ExitCode": 0,
+      "Output": "Id   RawStatus FinishedAt\r\n--   --------- ----------\r\n1001 FAILURE   11/12/2026 2:00:00 PM +00:00",
+      "Error": ""
+    },
+    {
+      "Name": "06-06.ps1",
+      "ExitCode": 0,
+      "Output": "Red Milliseconds\r\n --- ------------\r\n2000         6.33",
+      "Error": ""
+    },
+    {
+      "Name": "06-07.ps1",
+      "ExitCode": 0,
+      "Output": "2",
+      "Error": ""
+    },
+    {
+      "Name": "07-01.ps1",
+      "ExitCode": 0,
+      "Output": "RED\r\n0",
+      "Error": ""
+    },
+    {
+      "Name": "07-02.ps1",
+      "ExitCode": 0,
+      "Output": "Name                         ModuleName\r\n----                         ----------\r\nConvertTo-Json               Microsoft.PowerShell.Utility\r\nMicrosoft.PowerShell.Utility",
+      "Error": ""
+    },
+    {
+      "Name": "07-03.ps1",
+      "ExitCode": 0,
+      "Output": "typed-101",
+      "Error": ""
+    },
+    {
+      "Name": "07-04.ps1",
+      "ExitCode": 0,
+      "Output": "PipelineHealth.psm1\r\n1.0.0\r\nGet-PipelineHealth\r\nGet-HealthSummary\r\nPipelineHealth",
+      "Error": ""
+    },
+    {
+      "Name": "08-01.ps1",
+      "ExitCode": 0,
+      "Output": "{\"RawStatus\":\"FAILURE\",\"Health\":\"RED\"}\r\nPipeline health: RED (raw status: FAILURE)",
+      "Error": ""
+    },
+    {
+      "Name": "08-02.ps1",
+      "ExitCode": 0,
+      "Output": "Id             GeneratedAt                  LatestStatus\r\n--             -----------                  ------------\r\nBackend_Build  11/12/2026 2:00:00 PM +00:00 SUCCESS\r\nFrontend_Build 11/12/2026 2:00:00 PM +00:00 SUCCESS",
+      "Error": ""
+    },
+    {
+      "Name": "08-03.ps1",
+      "ExitCode": 0,
+      "Output": "Id   Status\r\n--   ------\r\n1001 FAILURE",
+      "Error": ""
+    },
+    {
+      "Name": "08-04.ps1",
+      "ExitCode": 0,
+      "Output": "At least since 2026-11-10 14:00:00 +00:00",
+      "Error": ""
+    },
+    {
+      "Name": "08-05.ps1",
+      "ExitCode": 0,
+      "Output": "ProjectId Name\r\n--------- ----\r\nA         Build\r\nB         Build\r\nCSS percentage: 50",
+      "Error": ""
+    },
+    {
+      "Name": "08-06.ps1",
+      "ExitCode": 0,
+      "Output": "\"PipelineId\",\"Health\",\"BoundaryObserved\",\"OldestObservedRedUtc\"\r\n\"Backend_Build\",\"RED\",\"False\",\"2026-11-10T14:00:00.0000000+00:00\"",
+      "Error": ""
+    },
+    {
+      "Name": "09-01.ps1",
+      "ExitCode": 0,
+      "Output": "AbsolutePath   : /teamcity/app/rest/\r\nAbsoluteUri    : https://ci.example.com/teamcity/app/rest/\r\nLocalPath      : /teamcity/app/rest/\r\nAuthority      : ci.example.com\r\nHostNameType   : Dns\r\nIsDefaultPort  : True\r\nIsFile         : False\r\nIsLoopback     : False\r\nPathAndQuery   : /teamcity/app/rest/\r\nSegments       : {/, teamcity/, app/, rest/}\r\nIsUnc          : False\r\nHost           : ci.example.com\r\nPort           : 443\r\nQuery          : \r\nFragment       : \r\nScheme         : https\r\nOriginalString : https://ci.example.com:443/teamcity/app/rest/\r\nDnsSafeHost    : ci.example.com\r\nIdnHost        : ci.example.com\r\nIsAbsoluteUri  : True\r\nUserEscaped    : False\r\nUserInfo       : \r\n\r\nAbsolutePath   : /teamcity/app/rest/\r\nAbsoluteUri    : https://ci.example.com/teamcity/app/rest/\r\nLocalPath      : /teamcity/app/rest/\r\nAuthority      : ci.example.com\r\nHostNameType   : Dns\r\nIsDefaultPort  : True\r\nIsFile         : False\r\nIsLoopback     : False\r\nPathAndQuery   : /teamcity/app/rest/\r\nSegments       : {/, teamcity/, app/, rest/}\r\nIsUnc          : False\r\nHost           : ci.example.com\r\nPort           : 443\r\nQuery          : \r\nFragment       : \r\nScheme         : https\r\nOriginalString : https://ci.example.com:443/teamcity/app/rest/\r\nDnsSafeHost    : ci.example.com\r\nIdnHost        : ci.example.com\r\nIsAbsoluteUri  : True\r\nUserEscaped    : False\r\nUserInfo       :",
+      "Error": ""
+    },
+    {
+      "Name": "09-02.ps1",
+      "ExitCode": 0,
+      "Output": "https://ci.example.com/app/rest/builds?locator=buildType%3A%28id%3ABackend_Build%29%2Cstate%3Afinished%2Cpersonal%3Afalse%2Ccanceled%3Afalse%2CdefaultFilter%3Afalse%2Ccount%3A100&fields=nextHref%2Cbuild%28id%2Cnumber%2Cstatus%2CfinishDate%2CwebUrl%29",
+      "Error": ""
+    },
+    {
+      "Name": "09-03.ps1",
+      "ExitCode": 0,
+      "Output": "A\r\nB",
+      "Error": ""
+    },
+    {
+      "Name": "09-04.ps1",
+      "ExitCode": 0,
+      "Output": "https://ci.example.com/teamcity/app/rest/buildTypes?locator=start%3A100",
+      "Error": ""
+    },
+    {
+      "Name": "09-05.ps1",
+      "ExitCode": 0,
+      "Output": "2026-11-12 14:00:00 +00:00",
+      "Error": ""
+    },
+    {
+      "Name": "09-06.ps1",
+      "ExitCode": 0,
+      "Output": "Valid empty count: 0\r\nRejected an incompatible response shape",
+      "Error": ""
+    },
+    {
+      "Name": "10-01.ps1",
+      "ExitCode": 0,
+      "Output": "What if: Performing the operation \"Write text\" on target \"C:\\Users\\AMALLI~1.ENG\\AppData\\Local\\Temp\\13307364-9553-423d-a59e-39aebfc03689.txt\".\r\nPreview left no artifact",
+      "Error": ""
+    },
+    {
+      "Name": "10-02.ps1",
+      "ExitCode": 0,
+      "Output": "Input and count invariants held",
+      "Error": ""
+    },
+    {
+      "Name": "11-01.ps1",
+      "ExitCode": 0,
+      "Output": "Name                        StartLine\r\n----                        ---------\r\nNew-TeamCityUri                    86\r\nInvoke-TeamCityGet                108\r\nGet-PropertyValue                 120\r\nTest-NameExcluded                 141\r\nConvertFrom-TeamCityDate          162\r\nConvertTo-HtmlText                209\r\nTest-TeamCityRootProject          218\r\nGet-TeamCityProjectInfo           238\r\nGet-TopLevelProjectName           260\r\nGet-TeamCityBuildTypes            317\r\nGet-RecentFinishedBuilds          345\r\nGet-PipelineInfo                  364\r\nNew-ReportHtml                    466\r\nNew-SummaryReportHtml             571\r\nNew-ProjectChartsReportHtml       714",
+      "Error": ""
+    },
+    {
+      "Name": "12-01.ps1",
+      "ExitCode": 0,
+      "Output": "C:\\Users\\amallick.ENGINEERS\\OneDrive - Unison Software, Inc\\Documents\\ChatGPT\\Learning before leaving usinos\\powershell-engineering-curriculum\\examples\\ReferenceImplementation\\output\\Red.html\r\nC:\\Users\\amallick.ENGINEERS\\OneDrive - Unison Software, Inc\\Documents\\ChatGPT\\Learning before leaving usinos\\powershell-engineering-curriculum\\examples\\ReferenceImplementation\\output\\Summary.html\r\nC:\\Users\\amallick.ENGINEERS\\OneDrive - Unison Software, Inc\\Documents\\ChatGPT\\Learning before leaving usinos\\powershell-engineering-curriculum\\examples\\ReferenceImplementation\\output\\Projects.html\r\n\r\nListed Excluded Eligible IsComplete\r\n------ -------- -------- ----------\r\n     6        0        6      False",
+      "Error": ""
+    },
+    {
+      "Name": "12-02.ps1",
+      "ExitCode": 0,
+      "Output": "Health              : RED\r\nLatestStatus        : FAILURE\r\nLatestAt            : 11/12/2026 2:00:00 PM +00:00\r\nObservedRedCount    : 2\r\nOldestObservedRedAt : 11/11/2026 2:00:00 PM +00:00\r\nBoundaryObserved    : True\r\nObservedBuildCount  : 3",
+      "Error": ""
+    },
+    {
+      "Name": "12-03.ps1",
+      "ExitCode": 0,
+      "Output": "Items: 0\r\nhttps://ci.example.com/teamcity/app/rest/buildTypes?fields=nextHref%2CbuildType%28id%2Cname%2CprojectName%2CprojectId%2CwebUrl%29&locator=templateFlag%3Afalse%2Ccount%3A25",
+      "Error": ""
+    },
+    {
+      "Name": "12-04.ps1",
+      "ExitCode": 0,
+      "Output": "What if: Performing the operation \"Create report directory\" on target \"C:\\Users\\AMALLI~1.ENG\\AppData\\Local\\Temp\\ReportPreview-4917dd4e-baf1-4191-9776-caef40d03423\".\r\nWhat if: Performing the operation \"Write rendered report\" on target \"C:\\Users\\AMALLI~1.ENG\\AppData\\Local\\Temp\\ReportPreview-4917dd4e-baf1-4191-9776-caef40d03423\\Red.html\".\r\nWhat if: Performing the operation \"Write rendered report\" on target \"C:\\Users\\AMALLI~1.ENG\\AppData\\Local\\Temp\\ReportPreview-4917dd4e-baf1-4191-9776-caef40d03423\\Summary.html\".\r\nWhat if: Performing the operation \"Write rendered report\" on target \"C:\\Users\\AMALLI~1.ENG\\AppData\\Local\\Temp\\ReportPreview-4917dd4e-baf1-4191-9776-caef40d03423\\Projects.html\".\r\nTrue\r\nFalse",
+      "Error": ""
+    }
+  ],
+  "OriginalCharacterization": [
+    {
+      "Case": "No builds",
+      "Health": "OTHER",
+      "RedCount": 0,
+      "Passed": true
+    },
+    {
+      "Case": "Latest green",
+      "Health": "GREEN",
+      "RedCount": 0,
+      "Passed": true
+    },
+    {
+      "Case": "Known boundary",
+      "Health": "RED",
+      "RedCount": 2,
+      "Passed": true
+    },
+    {
+      "Case": "All red",
+      "Health": "RED",
+      "RedCount": 2,
+      "Passed": true
+    },
+    {
+      "Case": "Unknown boundary",
+      "Health": "RED",
+      "RedCount": 1,
+      "Passed": true
+    }
+  ],
+  "Manifests": [
+    {
+      "Name": "HTMLArtifact",
+      "Version": "1.0.0"
+    },
+    {
+      "Name": "PipelineHealth",
+      "Version": "1.0.0"
+    },
+    {
+      "Name": "TeamCityAPI",
+      "Version": "1.0.0"
+    }
+  ],
+  "FileParsing": [
+    {
+      "File": "examples\\ReferenceImplementation\\New-TeamCityHealthReport.ps1",
+      "Errors": []
+    },
+    {
+      "File": "examples\\ReferenceImplementation\\HTMLArtifact\\HTMLArtifact.psd1",
+      "Errors": []
+    },
+    {
+      "File": "examples\\ReferenceImplementation\\HTMLArtifact\\HTMLArtifact.psm1",
+      "Errors": []
+    },
+    {
+      "File": "examples\\ReferenceImplementation\\PipelineHealth\\PipelineHealth.psd1",
+      "Errors": []
+    },
+    {
+      "File": "examples\\ReferenceImplementation\\PipelineHealth\\PipelineHealth.psm1",
+      "Errors": []
+    },
+    {
+      "File": "examples\\ReferenceImplementation\\TeamCityAPI\\TeamCityAPI.psd1",
+      "Errors": []
+    },
+    {
+      "File": "examples\\ReferenceImplementation\\TeamCityAPI\\TeamCityAPI.psm1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\Invoke-CurriculumVerification.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\ReferenceImplementation.Tests.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\Test-OriginalBehavior.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\chapter10-paired-example\\Get-ObservedRedCount.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\chapter10-paired-example\\Get-ObservedRedCount.Tests.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-07.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\01-08.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-07.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\02-08.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\03-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\03-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\03-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\03-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\03-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\03-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\04-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\04-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\04-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\04-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\04-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\04-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\05-07.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\06-07.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\07-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\07-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\07-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\07-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\08-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\08-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\08-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\08-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\08-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\08-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\09-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\09-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\09-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\09-04.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\09-05.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\09-06.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\10-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\10-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\11-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\12-01.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\12-02.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\12-03.ps1",
+      "Errors": []
+    },
+    {
+      "File": "verification\\generated-examples\\12-04.ps1",
+      "Errors": []
+    }
+  ],
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 42,
+    "Passed": 42,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "AnalyzerVersion": "1.24.0",
+  "AnalyzerFindings": [],
+  "OpeningBenchmark": {
+    "FirstMessage": 2210,
+    "SecondMessage": 921,
+    "Combined": 3131,
+    "CountingMethod": "Whitespace-separated tokens, including prose and code"
+  }
+}

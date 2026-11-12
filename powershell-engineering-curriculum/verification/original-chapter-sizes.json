@@ -1,0 +1,62 @@
+[
+  {
+    "Chapter": "01-powershell-execution-model.md",
+    "Words": 576,
+    "Bytes": 4865
+  },
+  {
+    "Chapter": "02-advanced-functions-and-cmdletbinding.md",
+    "Words": 475,
+    "Bytes": 4397
+  },
+  {
+    "Chapter": "03-errors-reliability-and-diagnostics.md",
+    "Words": 534,
+    "Bytes": 4434
+  },
+  {
+    "Chapter": "04-object-oriented-powershell-foundations.md",
+    "Words": 479,
+    "Bytes": 3841
+  },
+  {
+    "Chapter": "05-advanced-oop-and-composition.md",
+    "Words": 479,
+    "Bytes": 4018
+  },
+  {
+    "Chapter": "06-powershell-and-csharp-interoperability.md",
+    "Words": 484,
+    "Bytes": 3886
+  },
+  {
+    "Chapter": "07-modules-manifests-and-loading.md",
+    "Words": 490,
+    "Bytes": 4249
+  },
+  {
+    "Chapter": "08-software-design-and-dependency-injection.md",
+    "Words": 495,
+    "Bytes": 3991
+  },
+  {
+    "Chapter": "09-rest-api-engineering-for-teamcity.md",
+    "Words": 526,
+    "Bytes": 4351
+  },
+  {
+    "Chapter": "10-testing-static-analysis-and-ci.md",
+    "Words": 517,
+    "Bytes": 3995
+  },
+  {
+    "Chapter": "11-case-study-reading-the-existing-teamcity-report.md",
+    "Words": 779,
+    "Bytes": 6186
+  },
+  {
+    "Chapter": "12-guided-refactoring-and-reference-architecture.md",
+    "Words": 773,
+    "Bytes": 6628
+  }
+]
