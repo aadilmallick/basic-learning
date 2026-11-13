@@ -1,0 +1,122 @@
+{
+  "edition": "2026-11-13",
+  "word_count_method": "Python str.split whitespace words; not tokens",
+  "lessons": [
+    {
+      "file": "lessons/01-foundations-and-business-model.md",
+      "whitespace_words": 1984,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/02-customer-research-and-positioning.md",
+      "whitespace_words": 1942,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/03-products-offers-and-pricing.md",
+      "whitespace_words": 1933,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/04-copywriting-and-sales-pages.md",
+      "whitespace_words": 1919,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/05-content-strategy-and-linkedin.md",
+      "whitespace_words": 1900,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/06-short-video-and-recording.md",
+      "whitespace_words": 1840,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/07-seo-and-evergreen-discovery.md",
+      "whitespace_words": 1746,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/08-email-and-customer-relationships.md",
+      "whitespace_words": 1802,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/09-analytics-and-experiments.md",
+      "whitespace_words": 1775,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/10-partnerships-affiliates-and-paid-acquisition.md",
+      "whitespace_words": 1807,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/11-launches-and-sales-execution.md",
+      "whitespace_words": 1795,
+      "fences_balanced": true
+    },
+    {
+      "file": "lessons/12-retention-scaling-and-capstone.md",
+      "whitespace_words": 1939,
+      "fences_balanced": true
+    }
+  ],
+  "checks": {
+    "lesson_count": 12,
+    "workbook_count": 5,
+    "markdown_links_and_fences": "passed",
+    "html_ids_unique": true,
+    "html_local_navigation": "passed",
+    "html_requires_external_assets": false,
+    "lesson_word_total": 22382,
+    "all_markdown_word_total": 29723,
+    "errors": [],
+    "archive_integrity": "passed; zipfile.testzip and exact expected entry set"
+  },
+  "arithmetic": {
+    "unit_economics_price_scenarios_affiliate_and_click_allowance": "passed",
+    "organic": {
+      "purchase_rate_percent": 2,
+      "gross_sales": 390,
+      "cash_CAC": 0,
+      "revenue_spend_ratio": null,
+      "contribution_after_acquisition": 300,
+      "after_time_valuation": 0
+    },
+    "newsletter": {
+      "purchase_rate_percent": 2,
+      "gross_sales": 468,
+      "cash_CAC": 15,
+      "revenue_spend_ratio": 2.6,
+      "contribution_after_acquisition": 180,
+      "after_time_valuation": 105
+    },
+    "search": {
+      "purchase_rate_percent": 2,
+      "gross_sales": 312,
+      "cash_CAC": 37.5,
+      "revenue_spend_ratio": 1.04,
+      "contribution_after_acquisition": -60,
+      "after_time_valuation": -160
+    },
+    "social": {
+      "purchase_rate_percent": 1.2,
+      "gross_sales": 468,
+      "cash_CAC": 20,
+      "revenue_spend_ratio": 1.95,
+      "contribution_after_acquisition": 120,
+      "after_time_valuation": -5
+    }
+  },
+  "html_script_checks": {
+    "syntax": "passed",
+    "simulated_document_filtering": "passed",
+    "simulated_empty_state": "passed",
+    "simulated_clear_and_navigation_reset": "passed",
+    "simulated_print_handler": "passed",
+    "actual_browser_rendering": "not verified: Chromium startup blocked by environment socket permissions",
+    "mobile_visual_layout": "not verified"
+  }
+}
