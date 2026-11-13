@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-13",
+  "pages": 30,
+  "word_count_markdown": 9915,
+  "arithmetic_checks": {
+    "four_weeks_originals": true,
+    "cross_platform_uploads": true,
+    "weekly_budget": true,
+    "weekly_allocations": true,
+    "frame_interval_six": true,
+    "frame_interval_twelve": true,
+    "relative_improvement": true,
+    "percentage_points": true,
+    "watch_fraction": true,
+    "shares_per_thousand": true,
+    "follows_per_thousand": true,
+    "YT_APV": true,
+    "subscribers_per_engaged": true,
+    "calendar_originals": true
+  },
+  "text_bounds_violations": [],
+  "unrendered_markdown": false,
+  "pdf_link_annotations": 62,
+  "visual_review": "Final 30-page PDF rendered and all pages inspected in a contact sheet; full-size filming diagram, script table, and platform metrics inspected. No clipping, overlap, missing figure, or raw Markdown artifacts observed.",
+  "limits": "Tra Rags titles and metadata verified; full video playback/transcripts unavailable. No actual sketches, platform accounts, editors, audience tests or income results were executed. Proposed metrics and creative effectiveness remain hypotheses.",
+  "markdown_links": "Checked local asset resolution and balanced fences; external links are research references, not guaranteed future availability.",
+  "archive_integrity": "Passed CRC, safe relative paths, six required files, and byte comparison against final source artifacts."
+}
