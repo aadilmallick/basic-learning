@@ -1,0 +1,180 @@
+{
+  "linkedin": [
+    {
+      "id": "LI01",
+      "title": "Name the prototype gap",
+      "copy": "The first AI demo is the easy part to show.\n\nThe harder question is what happens when the input changes.\n\nI’m building a small teaching app that turns rough client notes into a draft brief. The interesting cases are incomplete notes, conflicting requirements, and edits after approval.\n\nI want the app to preserve those uncertainties instead of quietly converting them into scope.\n\nIf you’ve built a JavaScript app with an AI coding assistant, where did you become unsure what to trust or test?\n\nI’m collecting real obstacles for a project-based workshop."
+    },
+    {
+      "id": "LI02",
+      "title": "Give uncertainty a place",
+      "copy": "A client says: “We might need customer accounts later.”\n\nYour AI brief says: “Customer accounts are included.”\n\nThe output can look polished while changing the agreement.\n\nFor a brief-drafting tool, I want separate places for stated requirements, assumptions, and open questions. A person should review the draft before it becomes a commitment.\n\nThat is partly a model instruction problem and partly an interface design problem.\n\nTry the uncertain-accounts sentence in a tool you are building. What does the result imply?\n\nThis is one of the examples I’m preparing for a practical AI development workshop."
+    },
+    {
+      "id": "LI03",
+      "title": "Show the workflow",
+      "copy": "This is the workflow I’m using for a small AI teaching project:\n\nRough notes → server request → checked response → editable draft → human review → export.\n\nEach step has a job.\n\nThe draft should not silently become approved because the model returned something plausible. Editing an approved requirement should also make us ask whether another review is needed.\n\nI’m keeping the application small so these decisions stay visible.\n\nThe recording shows the current training version with fictional client notes.\n\nWhat is one state change in your own app that deserves a clearer rule?"
+    },
+    {
+      "id": "LI04",
+      "title": "Offer the checklist",
+      "copy": "Before changing the prompt, write down what should happen.\n\nUse one normal input, one incomplete input, and one contradiction. Add a failure condition such as a timeout.\n\nThen compare the application’s behavior with those expectations.\n\nYou may discover that the issue belongs in validation or the interface rather than the prompt.\n\nI put this process into a free AI App Shipping Checklist for JavaScript developers. It covers the request path, uncertainty, recovery, usage boundaries, and handoff.\n\nGet it here: [resource link]\n\nChoose one No or Unknown and fix that next."
+    },
+    {
+      "id": "LI05",
+      "title": "Explain two kinds of correctness",
+      "copy": "A response can match your schema and still invent a requirement.\n\nThose are two different checks.\n\nThe schema tells you whether the data has the expected structure. It does not establish that the client requested everything inside it.\n\nFor a brief-drafting workflow, I also want uncertainty represented and the result reviewed by a person.\n\nThe example below uses synthetic notes and a small set of checks. It is a teaching example, not a general reliability claim.\n\nThe free checklist explains the review process: [resource link]"
+    },
+    {
+      "id": "LI06",
+      "title": "Introduce the walkthrough",
+      "copy": "I made a walkthrough of the Client Brief Copilot teaching project.\n\nThe useful part is the second input.\n\nWe start with ordinary notes, then remove information and introduce a contradiction. Before each run, we state the behavior we expect.\n\nThen we inspect the result and compare a small revision against the same cases.\n\nIf you have an AI prototype that works in a demo but is difficult to explain, this is a manageable place to start.\n\nWatch: [video link]\n\nThe checklist and examples are linked from the video."
+    },
+    {
+      "id": "LI07",
+      "title": "Invite the workshop",
+      "copy": "I’m running a free workshop for JavaScript developers moving from an AI prototype to a testable app.\n\nWe will use fictional client notes to inspect output structure, missing information, and human review. You will leave with one concrete check to add to a project.\n\nBring basic JavaScript knowledge. You do not need a new paid coding tool for the workshop.\n\nThe session ends with an optional invitation to my paid six-week project lab.\n\nDetails and registration: [workshop link]\n\nThe page has the actual date, time zone, and prerequisites."
+    },
+    {
+      "id": "LI08",
+      "title": "Show the review method",
+      "copy": "When I review an AI-generated change, I want to answer four questions:\n\nWhat behavior did we request?\nWhat actually changed?\nWhich check would expose a mistake?\nCan I explain the result without reading the assistant’s summary?\n\nFor an editable brief, a visible text box is not enough. I want to know whether export uses the edit and whether approval is still appropriate afterward.\n\nWe will practice that kind of review in the workshop.\n\nIf this matches the gap in your own work, the details are here: [workshop link]"
+    },
+    {
+      "id": "LI09",
+      "title": "Set expectations before the event",
+      "copy": "The workshop will use one small application and a few revealing examples.\n\nWe are not going to tour twenty tools.\n\nWe will trace a request, inspect a response, preserve uncertainty, and choose a meaningful test. The goal is to understand one workflow well enough to improve it.\n\nThis is for people who already know basic JavaScript and have tried building a web app.\n\nIf that sounds useful, register here: [workshop link]\n\nIf you are brand new to programming, start with a fundamentals course first. The prerequisite check on the page will help you decide."
+    },
+    {
+      "id": "LI10",
+      "title": "Open the founding cohort",
+      "copy": "Founding enrollment is open for AI App Shipping Lab.\n\nThe first project is a six-week Client Brief Copilot: a small AI app with editable output, an evaluation set, error handling, and a deployment handoff.\n\nMembership is $149 per month and continues until cancelled. The six-week sprint normally spans two charges, or $298 if you stay through both.\n\nIt includes weekly group teaching, scoped questions, and one 10-minute individual review per billing month.\n\nThere are at most 15 founding places because I am bounding the review workload.\n\nSee the actual schedule, prerequisites, refund terms, and cancellation route: [program link]"
+    },
+    {
+      "id": "LI11",
+      "title": "Answer the free-content objection",
+      "copy": "You can learn the concepts in my public articles and videos.\n\nThe paid lab adds a project sequence, assignments, a working group, and scoped feedback on your attempt.\n\nThat distinction matters when deciding whether to join.\n\nIf you prefer independent study, use the free checklist and walkthroughs. If you want a guided six-week project and the support described on the program page, the founding lab may fit.\n\nYou still need basic JavaScript, Git, and time to practice.\n\nThe complete offer and billing terms are here: [program link]"
+    },
+    {
+      "id": "LI12",
+      "title": "Explain the intake deadline",
+      "copy": "This founding intake closes at the deadline shown on the program page so the group can start the project together.\n\nBefore joining, check the prerequisites, weekly time commitment, session schedule, and monthly billing terms.\n\nThe first project lasts six weeks. Membership continues until cancelled, and the project normally spans two monthly charges.\n\nIf the timing does not fit, use the free materials or join the next-intake list instead.\n\nI will not add extra founding review places beyond the published capacity.\n\nDetails: [program link]"
+    }
+  ],
+  "x": [
+    "Your AI app works on the demo input. Try an incomplete input, a contradiction, and a timeout next. Write the expected behavior before running them.",
+    "A response can match a schema and still invent a requirement. Check structure and meaning separately.",
+    "For an AI brief writer, “we might need accounts” should not silently become “accounts are included.” Give uncertainty a visible place.",
+    "Before accepting AI-generated code: inspect the diff, run a revealing check, and explain the result yourself.",
+    "A useful test starts with a behavior you want. “The page has a text box” is weaker than “the edited requirement appears in the export.”",
+    "I’m building a small AI app teaching project around synthetic client notes, explicit uncertainty, and human review. What part of your prototype is hardest to explain?",
+    "One reference project can teach response validation, failure handling, evaluation, and deployment. You do not need a new tool for every lesson.",
+    "The free AI App Shipping Checklist helps you choose the next useful fix in a JavaScript AI prototype. Get it from the resource link in my profile.",
+    "Free workshop: turn an AI prototype into a more testable workflow. Basic JavaScript required. Optional paid lab invitation at the end. Details in my profile.",
+    "AI App Shipping Lab is a guided six-week project with scoped feedback. Founding membership is $149/month, continuing until cancelled. The sprint normally spans two charges. Full terms in my profile."
+  ],
+  "xThread": [
+    "How I would review a small AI-generated application before sharing it. A practical sequence for JavaScript developers:",
+    "1. Define the user, input, output, and non-goals. If the feature drafts a brief, decide who approves it and what it must not invent.",
+    "2. Write examples before changing the model instruction. Include missing information, contradictions, and a failure condition.",
+    "3. Trace the request. Know what happens in the browser, server, model call, response check, and draft interface.",
+    "4. Separate response structure from meaning. A complete field can still contain an unsupported claim.",
+    "5. Make one justified change. Compare the same cases before and after, and keep the remaining limitations visible.",
+    "6. Inspect the actual diff and behavior. An assistant’s confident summary does not complete your review.",
+    "I put these questions into a free AI App Shipping Checklist. The resource link is in my profile. It is a starting point, not a certification."
+  ],
+  "shorts": [
+    {
+      "id": "S01",
+      "title": "The missing deadline",
+      "script": "A client note says, “I need a website.” Should your AI brief invent a deadline? Before running the app, decide what it should do with missing information. In this training example, I want the deadline left unknown and a useful question added. Watch the draft fields. A complete-looking answer can be the wrong behavior for the workflow. Write the expectation before changing the prompt.",
+      "cta": "Follow for the checklist walkthrough."
+    },
+    {
+      "id": "S02",
+      "title": "A schema is one check",
+      "script": "This response has all the expected fields. That does not tell us whether the client requested everything inside it. A schema checks structure. In a brief-drafting app, we also need to inspect unsupported requirements and preserve uncertainty. Here is the difference between a stated requirement and an assumption. Use both kinds of checks when reviewing an AI feature.",
+      "cta": "Get the AI App Shipping Checklist from the resource destination in my profile."
+    },
+    {
+      "id": "S03",
+      "title": "The approval state",
+      "script": "You approved a draft. Then you changed a requirement. Should the app still call it approved? This small state change is easy to miss when an assistant generates the interface. I want the rule written before reviewing the code. Here, a material edit needs another review. The useful check is the behavior after editing, not simply whether the button exists.",
+      "cta": "The workshop details are in my profile."
+    },
+    {
+      "id": "S04",
+      "title": "The useful code review",
+      "script": "Before accepting an AI-generated change, name the behavior, inspect the diff, and run a check that could reveal a mistake. For this app, I edit a requirement and inspect the export. Then I explain how that edit moved through the system. If I cannot explain the change, I have more review to do.",
+      "cta": "Use the checklist linked from my profile or named channel."
+    },
+    {
+      "id": "S05",
+      "title": "What the paid lab adds",
+      "script": "My public lessons teach the concepts. AI App Shipping Lab adds a six-week project path, assignments, group teaching, and scoped feedback. The founding subscription is $149 per month and continues until cancelled. The six-week sprint normally spans two charges. It is for people who already know basic JavaScript and Git.",
+      "cta": "Check the full offer, schedule, and terms before joining."
+    },
+    {
+      "id": "S06",
+      "title": "The bounded retry",
+      "script": "The request timed out. Should the app keep trying forever? Before adding another retry, decide the limit, the message the user sees, and how they can recover. I use this failure in the training project because a successful demo never shows it. A useful AI app lesson includes the path where the model does not answer.",
+      "cta": "The free checklist includes recovery questions."
+    },
+    {
+      "id": "S07",
+      "title": "One change and the same cases",
+      "script": "If you change three things and use a different example, it is hard to tell what improved. Start with an observed problem, make one justified change, and rerun the same cases. Record the remaining failures too. This small results sheet is how we practice evaluation in the project.",
+      "cta": "Watch the full walkthrough from my named YouTube channel."
+    },
+    {
+      "id": "S08",
+      "title": "The handoff",
+      "script": "Can another person run your AI app without asking you five setup questions? A handoff needs the setup, supported behavior, configuration, known limitations, and a way to verify the result. A nice demo is useful. A reproducible project lets someone inspect and maintain what you built.",
+      "cta": "The checklist and workshop show the full project path."
+    }
+  ],
+  "emails": [
+    {
+      "id": "E01",
+      "subject": "Your AI App Shipping Checklist",
+      "when": "Immediately after the resource request. This delivers the requested material and does not require marketing consent.",
+      "body": "Here is your AI App Shipping Checklist: [resource link].\n\nStart with one small feature. Mark each item Yes, No, or Unknown, then choose one concrete next action.\n\nA useful first check is missing information. If a client did not specify a deadline, does your application preserve that uncertainty or invent one?\n\nWrite the behavior you expect before running the example. Then compare what actually happens.\n\nThe checklist includes a results-sheet format so you can record the evidence rather than rely on a general feeling that the app works.\n\nIf the file or page does not open, reply and tell me which destination failed.\n\nAadil"
+    },
+    {
+      "id": "E02",
+      "subject": "A valid response can still be wrong",
+      "when": "Two days later, only for people who consented to teaching and promotional email.",
+      "body": "The brief has every field your application expected. That is useful, but it does not establish that the client requested everything inside it.\n\nTry this fictional note: “We might need customer accounts later.”\n\nIf your generated brief says “Customer accounts are included,” the application has turned uncertainty into scope.\n\nFor this workflow, I want stated requirements, assumptions, and open questions represented separately. I also want a person to review the draft.\n\nYour task today: write one input where a complete-looking answer would be misleading. State what acceptable behavior would look like before you run it.\n\nThe checklist is here if you need it: [resource link].\n\nAadil"
+    },
+    {
+      "id": "E03",
+      "subject": "Review the change before accepting it",
+      "when": "Four days after opt-in, unless the reader has left the sequence or become a member.",
+      "body": "An assistant can explain a change confidently while the implementation still misses the task.\n\nFor an editable brief, I would check whether the edited requirement appears in the export and whether an approved draft needs review again after a material edit.\n\nThose checks are more useful than confirming that a text box appeared.\n\nHere is the walkthrough of this review process: [video link].\n\nAs you watch, identify the original acceptance criteria, the changed files, and the behavior check. Then try the same sequence on one small change in your own project.\n\nIf you want to reply, tell me the point where your application becomes hardest to explain. I read replies; I cannot promise individual debugging through the newsletter.\n\nAadil"
+    },
+    {
+      "id": "E04",
+      "subject": "Practice the checklist with me",
+      "when": "During an actual workshop registration window. Otherwise invite the next-workshop waitlist with accurate wording.",
+      "body": "I’m teaching a free workshop called From AI Prototype to a Testable App.\n\nWe will use fictional client notes to trace a request, inspect missing information, compare a small change, and choose a useful check.\n\nIt is for developers who already know basic JavaScript and have built a small web app. You do not need a new paid coding subscription for the session.\n\nThe page has the actual date, time zone, prerequisites, and registration details: [workshop link].\n\nThe workshop ends with an optional invitation to my paid six-week project lab. The teaching portion should be useful on its own.\n\nIf a live session does not fit your schedule, check the page for the replay arrangement before registering.\n\nAadil"
+    },
+    {
+      "id": "E05",
+      "subject": "Would the project lab fit you",
+      "when": "After a relevant teaching sample or workshop. Suppress for current members.",
+      "body": "The lab is designed for a specific starting point.\n\nYou can write basic JavaScript, use Git, and build a small web app. You have tried an AI coding assistant and want a more deliberate way to inspect, test, and finish the result.\n\nThe first project is Client Brief Copilot. It has editable draft output, explicit uncertainty, a small evaluation set, recoverable failures, and a deployment handoff.\n\nIf you are learning programming from zero, start with fundamentals first. If you need someone to build your application for you, this membership is a different service.\n\nThe program page explains the outcome, schedule, support limits, and billing: [program link].\n\nReply with a brief question about prerequisites if you are unsure of the fit.\n\nAadil"
+    },
+    {
+      "id": "E06",
+      "subject": "Founding enrollment is open",
+      "when": "Only when the actual founding checkout is open and the promised materials exist.",
+      "body": "Founding enrollment for AI App Shipping Lab is open.\n\nThe first sprint runs for six weeks. We will build and explain Client Brief Copilot through specification, implementation, evaluation, failure handling, deployment, and handoff.\n\nThe founding subscription is $149 per month and continues until cancelled. The six-week sprint normally spans two charges, or $298 if you stay through both.\n\nIt includes a weekly group session, structured questions, and one scoped 10-minute individual review per billing month. There are at most 15 founding places because review capacity is limited.\n\nRead the actual start date, prerequisites, support boundaries, refund policy, and cancellation route before joining: [program link].\n\nThis is a project-based learning program. It does not promise employment, clients, or income.\n\nAadil"
+    },
+    {
+      "id": "E07",
+      "subject": "Check the start date before joining",
+      "when": "Before the genuine cohort intake deadline. Do not use as a recurring false deadline.",
+      "body": "This cohort begins on the date shown on the program page, and intake closes at the stated deadline so we can start together.\n\nBefore deciding, check that you can spend three to five hours per week and meet the JavaScript and Git prerequisites.\n\nThe first project lasts six weeks. The $149 monthly membership continues until cancelled and normally spans two charges during that sprint. The full terms are here: [program link].\n\nIf the schedule does not work, the free checklist and videos remain available. You can also join the next-intake list instead of buying now.\n\nIf the group has reached its real capacity, the page will show the waitlist rather than accept additional review commitments.\n\nAadil"
+    }
+  ]
+}
