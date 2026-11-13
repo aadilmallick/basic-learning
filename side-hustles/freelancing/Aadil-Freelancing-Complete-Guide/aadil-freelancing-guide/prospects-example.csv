@@ -1,0 +1,4 @@
+account,source_url,observation,offer,contact_role,status,next_action,next_action_date,opted_out
+FICTIONAL Cedar Learning,https://example.com/cedar,Fictional training workflow example,browser-pilot,Operations owner,research,Verify actual workflow,2026-11-13,false
+FICTIONAL Maple Studio,https://example.com/maple,Fictional agency example,agency-partner,Technical lead,conversation,Prepare diagnostic scope,2026-11-16,false
+FICTIONAL Pine Tools,https://example.com/pine,Fictional developer-tool example,tutorial,Content lead,closed,Do not contact,2026-11-12,true

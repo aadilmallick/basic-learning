@@ -1,0 +1,19 @@
+{
+  "lesson_words_whitespace": {
+    "01-positioning-offers-and-proof.md": 5243,
+    "02-build-your-own-client-pipeline.md": 5511,
+    "03-discovery-pricing-proposals-and-money.md": 5273,
+    "04-delivery-modern-tools-and-repeat-business.md": 5129
+  },
+  "lesson_count": 4,
+  "total_lesson_words": 21156,
+  "minimum_words_per_lesson": 5000,
+  "length_method": "Whitespace-separated words as a conservative proxy; no model tokenizer available; exact token compliance not verified.",
+  "markdown_broken_local_links": [],
+  "markdown_unbalanced_fences": [],
+  "html_broken_internal_links": [],
+  "html_tables": 9,
+  "html_ids": 301,
+  "duplicate_substantial_paragraphs": 0,
+  "research_date": "2026-11-13"
+}
